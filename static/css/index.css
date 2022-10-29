@@ -1,0 +1,213 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap");
+html, body {
+  margin: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+}
+
+#mainBody {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  color: white;
+}
+#mainBody header {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+#mainBody header p {
+  margin: 0;
+  color: orange;
+  font-family: "Oswald", sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+#mainBody #bgParticals {
+  background-color: black;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -10;
+  pointer-events: none;
+}
+#mainBody #container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  -webkit-column-gap: 1rem;
+     -moz-column-gap: 1rem;
+          column-gap: 1rem;
+  padding: 0 0.5rem 0.5rem 0.5rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#mainBody #container #left {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 20%;
+          flex: 1 1 20%;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+#mainBody #container #left #leftBG {
+  background-color: #FFFFFF;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+#mainBody #container #left #options {
+  background-color: rgba(223, 223, 223, 0.5);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+  padding: 1rem 1rem 2rem 1rem;
+  border-radius: 5px;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: #000000;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#mainBody #container #left #options #infos {
+  display: table;
+  border-spacing: 0.3rem 0.7rem;
+}
+#mainBody #container #left #options #infos .info {
+  margin: 0;
+  display: table-row;
+  border-spacing: 5px 1rem;
+}
+#mainBody #container #left #options #infos .info span {
+  display: table-cell;
+  margin: 0;
+}
+#mainBody #container #left #options #infos .info span:last-child {
+  text-align: right;
+}
+#mainBody #container #left #options hr {
+  width: 80%;
+  border: 0.5px solid grey;
+}
+#mainBody #container #left #options #attackFuns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+#mainBody #container #left #options #attackFuns p {
+  margin: 0;
+}
+#mainBody #container #left #options #attackFuns ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.5rem 0.9rem;
+}
+#mainBody #container #left #options #attackFuns ul li {
+  list-style: none;
+}
+#mainBody #container #left #options #attackFuns ul li input[type=radio] {
+  border-style: none;
+}
+#mainBody #container #right {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 60%;
+          flex: 1 1 60%;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 1rem;
+  padding: 0.5rem 2rem 1rem 2rem;
+}
+#mainBody #container #right #rightBG {
+  background-color: #FFFFFF;
+  -webkit-clip-path: polygon(1rem 0%, calc(100% - 1rem) 0, 100% 1rem, 100% calc(100% - 1rem), calc(100% - 1rem) 100%, 1rem 100%, 0 calc(100% - 1rem), 0 1rem);
+          clip-path: polygon(1rem 0%, calc(100% - 1rem) 0, 100% 1rem, 100% calc(100% - 1rem), calc(100% - 1rem) 100%, 1rem 100%, 0 calc(100% - 1rem), 0 1rem);
+  mix-blend-mode: exclusion;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+#mainBody #container #right p {
+  margin: 0;
+  text-align: center;
+}
+#mainBody #container #right textarea {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  background-color: rgba(0, 0, 0, 0.8);
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+  border: 1px solid black;
+  border-radius: 5px;
+  color: white;
+  padding: 0.5rem;
+  resize: none;
+  cursor: text;
+}
+#mainBody #container #right textarea:focus {
+  outline: none;
+}

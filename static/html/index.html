@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- FONTS -->
+
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/nice-select.css">
+
+
+    <!-- JS -->
+    <script src="../js/socketIo.js" defer></script>
+    <script src="../js/jquery.js" defer></script>
+    <script src="../js/partical.js" defer></script>
+    <script src="../js/jquery.nice-select.min.js" defer></script>
+    <script src="../js/index.js" defer></script>
+
+</head>
+<body>
+    <div id="mainBody">
+        <canvas id="bgParticals"></canvas>
+        <header>
+            <p>Bot Master</p>
+        </header>
+        <div id="container">
+            <div id="left">
+                <!-- OPTIONS CONTAINER -->
+                <div id="leftBG"></div>
+                <div id="options">
+                    <select name="infected" id="infected" class="wide">
+                        <option data-display="Infected">None</option>
+                        <!-- <option value="1">Phone 1</option>
+                        <option value="2">Phone 2</option>
+                        <option value="3">Phone 3</option> -->
+                    </select>
+                    <div id="infos">
+                        <!-- <div class="info">
+                            <span>IP :</span>
+                            <span>172.168.32.55</span>
+                        </div>
+                        <div class="info">
+                            <span>Android Version :</span>
+                            <span>9.0 Pie</span>
+                        </div>
+                        <div class="info">
+                            <span>Model Number :</span>
+                            <span>10AO070XCR</span>
+                        </div> -->
+                    </div>
+                    <hr>
+                    <div id="attackFuns">
+                        <p>Attacks</p>
+                        <ul>
+                            <li>
+                                <input type="radio" name="attack" onclick="attack(this.value)" value="Open App">
+                                <label for="">Open App</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="attack" onclick="attack(this.value)" value="Logger">
+                                <label for="">Logger</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="attack" onclick="attack(this.value)" value="Screen Recorder">
+                                <label for="">Screen Recorder</label>
+                            </li>
+                            <li>
+                                <!-- <input type="radio" name="attack" onclick="attack(this.value)" value="dos">
+                                <label for="">Ping</label> -->
+                                <input type="text" id="pingIp" placeholder="ip"/>
+                                <input type="text" id="pingPort" placeholder="port"/>
+                                <input type="text" id="pingWait" placeholder="waiting time"/>
+                                <button id="pingStart" onclick="DOS(true)">Start</button>
+                                <button id="pingStop" onclick="DOS(false)" disabled>Stop</button>
+
+                            </li>
+                        </ul>
+                        <button onclick="stopAttack()">STOP</button>
+                    </div>
+                </div>
+            </div>
+            <div id="right">
+                <div id="rightBG"></div>
+                <!-- OUTPUT CONTAINER -->
+                <p>Output</p>
+                <textarea name="output" spellcheck="false" id="output" disabled></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

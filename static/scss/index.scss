@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap');
+
+
+
+
+
+html,body{
+    margin: 0;
+}
+
+body{
+    height: 100vh;
+    width: 100vw;
+}
+
+
+#mainBody{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    color : white;
+    header{
+        box-sizing: border-box;
+        width: 100%;
+        height: fit-content;
+        text-align: center;
+        margin-bottom: 0.5rem;
+        p{
+            margin: 0;
+            color: orange;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+    }
+    #bgParticals{
+        background-color: black;
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+        z-index: -10;
+        pointer-events: none;
+    }
+
+    #container{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        column-gap: 1rem;
+        padding: 0 0.5rem 0.5rem 0.5rem;
+        box-sizing: border-box;
+        #left{
+            // background-color: cadetblue;
+            flex : 1 1 20%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            #leftBG{
+                background-color: #FFFFFF;
+                mix-blend-mode: multiply;
+                pointer-events: none;
+                position: absolute;
+                inset: 0;
+                height: 100%;
+                width: 100%;
+            }
+            #options{
+                background-color: rgba($color: #dfdfdf, $alpha: .5);
+                backdrop-filter: blur(3px);
+                padding: 1rem 1rem 2rem 1rem;
+                border-radius: 5px;
+                height: max-content;
+                display: flex;
+                flex-direction: column;
+                color: #000000;
+                box-sizing: border-box;
+                #infos{
+                    display: table;
+                    border-spacing: 0.3rem 0.7rem;
+                    .info{
+                        margin: 0;
+                        display: table-row;
+                        border-spacing: 5px 1rem;
+                        // flex-wrap: wrap;
+                        // justify-content: center;
+                        // align-items: center;
+                        span{
+                            display: table-cell;
+                            margin: 0;
+                            &:first-child{
+                                // background-color: aqua;
+                                // text-align: right;
+                            }
+                            &:last-child{
+                                // background-color: bisque;
+                                text-align: right;
+                            }
+                        }
+                    }
+                }
+                hr{
+                    width: 80%;
+                    border: 0.5px solid grey;
+                }
+                #attackFuns{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    p{
+                        margin : 0
+                    }
+                    ul{
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 0.5rem 0.9rem;
+                        li{
+                            list-style: none;
+                            input[type=radio]{
+                                border-style: none;
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+        #right{
+            // background-color: darkcyan;
+            flex : 1 1 60%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            row-gap: 1rem;
+            padding: 0.5rem 2rem 1rem 2rem;
+            #rightBG{
+                $per : 1rem;
+                background-color: #FFFFFF;
+                clip-path: polygon($per 0%, calc( 100% - $per ) 0, 100% $per, 100% calc( 100% - $per ), calc( 100% - $per ) 100%, $per 100%, 0 calc( 100% - $per ), 0 $per);
+                mix-blend-mode:exclusion;
+                pointer-events: none;
+                position: absolute;
+                inset: 0;
+                height: 100%;
+                width: 100%;
+            }
+            p{
+                margin: 0;
+                text-align: center;
+            }
+            textarea{
+                flex: 1;
+                // background-color: rgba($color: #FFFFFF, $alpha: 0.8);
+                background-color: rgba($color: #000000, $alpha: 0.8);
+                backdrop-filter: blur(2px);
+                border : 1px solid black;
+                // border: none;
+                border-radius: 5px;
+                color: white;
+                padding: 0.5rem;
+                resize: none;
+                cursor:text;
+                // outline: 3px solid orange;
+                // box-shadow: 0 0 5px 1px orange;
+                &:focus{
+                    outline : none;
+                }
+                
+            }
+        }
+    }
+}
+
+
