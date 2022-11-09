@@ -120,13 +120,15 @@ body{
                         display: flex;
                         flex-wrap: wrap;
                         justify-content: center;
-                        align-items: center;
+                        flex-direction: column;
+                        // align-items: center;
+                        justify-content: center;
                         gap: 0.5rem 0.9rem;
                         li{
                             list-style: none;
-                            input[type=radio]{
-                                border-style: none;
-                            }
+                            // input[type=radio]{
+                            //     border-style: none;
+                            // }
                         }
                     }
                 }
@@ -157,6 +159,7 @@ body{
                 text-align: center;
             }
             textarea{
+                // display: none;
                 flex: 1;
                 // background-color: rgba($color: #FFFFFF, $alpha: 0.8);
                 background-color: rgba($color: #000000, $alpha: 0.8);
@@ -175,8 +178,96 @@ body{
                 }
                 
             }
+            #imgSrc{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                height: 100%;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                pointer-events: none;
+                opacity: 0;
+                img{
+                    mix-blend-mode: multiply;
+                    width: auto;
+                    height: 100%;
+                    &[src=""]{
+                        border: 1px solid white;
+                        width: 200px !important;
+                        height: 300px !important;
+                    }
+                }
+            }
         }
     }
 }
+
+
+
+.switch {
+    $switch-Height : 20px;
+    $switch-Width : 34px;
+    $switch-Radius : 14px;
+
+    $slider-Height : 12px;
+    $slider-Width : 12px;
+
+
+
+
+    position: relative;
+    display: inline-block;
+    width: $switch-Width;
+    height: $switch-Height;
+    input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked + .slider {
+            background-color: #2196F3;
+        }
+        &:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        &:checked + .slider:before {
+            transform: translateX($slider-Width);
+        }
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        &:before {
+            position: absolute;
+            content: "";
+            height: $slider-Height;
+            width: $slider-Width;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            }
+            /* Rounded sliders */
+        &.round {
+            border-radius: $switch-Radius;
+            &:before {
+                border-radius: 50%;
+            }
+        }
+    }
+}
+  
+  
 
 

