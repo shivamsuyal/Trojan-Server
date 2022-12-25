@@ -1,5 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap');
+$background-color : #e1e0e5;
+$border-color : #474b58;
+$button-color : #2097f3;
+$color-1 : #363539;
+$time1 : 200ms;
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Work+Sans:wght@400;500;600&family=Ubuntu+Mono&display=swap');
 
 
 
@@ -9,10 +14,13 @@ html,body{
 }
 
 body{
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
+    background-color: $background-color;
 }
-
+input,textarea,button,select{
+    font: inherit;
+}
 
 #mainBody{
     display: flex;
@@ -22,22 +30,32 @@ body{
     position: relative;
     color : white;
     header{
+        padding: 1rem;
+        padding-bottom: 0.5rem;
         box-sizing: border-box;
         width: 100%;
         height: fit-content;
         text-align: center;
         margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        img{
+            height: 2rem;
+            width: auto;
+        }
         p{
             margin: 0;
-            color: orange;
-            font-family: 'Oswald', sans-serif;
+            color: white;
+            // color: white;
+            font-family: 'Poppins', sans-serif;
             font-weight: 600;
             font-size: 1.5rem;
             letter-spacing: 2px;
         }
     }
     #bgParticals{
-        background-color: black;
         position: absolute;
         inset: 0;
         height: 100%;
@@ -51,18 +69,17 @@ body{
         width: 100%;
         height: 100%;
         column-gap: 1rem;
-        padding: 0 0.5rem 0.5rem 0.5rem;
+        padding: 0 0.5rem;
         box-sizing: border-box;
+        flex-wrap: wrap;
         #left{
-            // background-color: cadetblue;
             flex : 1 1 20%;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-left: 1rem;
             #leftBG{
-                background-color: #FFFFFF;
-                mix-blend-mode: multiply;
                 pointer-events: none;
                 position: absolute;
                 inset: 0;
@@ -70,9 +87,9 @@ body{
                 width: 100%;
             }
             #options{
-                background-color: rgba($color: #dfdfdf, $alpha: .5);
+                // background-color: #FFFFFF;
                 backdrop-filter: blur(3px);
-                padding: 1rem 1rem 2rem 1rem;
+                // padding: 1rem 1rem 2rem 1rem;
                 border-radius: 5px;
                 height: max-content;
                 display: flex;
@@ -82,22 +99,25 @@ body{
                 #infos{
                     display: table;
                     border-spacing: 0.3rem 0.7rem;
+                    padding: 0rem 1rem;
+                    background-color: #ffffff;
+                    border-radius: 0 0 5px 5px;
                     .info{
                         margin: 0;
-                        display: table-row;
+                        display: flex;
+                        align-items: center;
                         border-spacing: 5px 1rem;
-                        // flex-wrap: wrap;
-                        // justify-content: center;
-                        // align-items: center;
+                        font-family: "Poppins";
+                        font-size: 0.8rem;
+                        margin-top: 0.3rem;
                         span{
-                            display: table-cell;
                             margin: 0;
                             &:first-child{
-                                // background-color: aqua;
-                                // text-align: right;
+                                font-weight: 500;
                             }
                             &:last-child{
-                                // background-color: bisque;
+                                flex: 1;
+                                color: gray;
                                 text-align: right;
                             }
                         }
@@ -113,6 +133,7 @@ body{
                     justify-content: center;
                     align-items: center;
                     width: 100%;
+                    margin-top: 0.5rem;
                     p{
                         margin : 0
                     }
@@ -121,68 +142,136 @@ body{
                         flex-wrap: wrap;
                         justify-content: center;
                         flex-direction: column;
-                        // align-items: center;
                         justify-content: center;
                         gap: 0.5rem 0.9rem;
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
                         li{
                             list-style: none;
-                            // input[type=radio]{
-                            //     border-style: none;
-                            // }
+                            input[type=radio]{
+                                &:focus{
+                                    outline: none;
+                                }
+                            }
+                            &.attackList1{
+                                font-family: "Poppins";
+                                font-size: 0.95rem;
+                                display: flex;
+                                gap: 0.5rem;
+                                justify-content: center;
+                                align-items: center;
+                                flex-direction: column;
+                                box-sizing: border-box;
+                                color: $color-1;
+                                padding: 1rem;
+                                font-size: .95rem;
+                                font-weight: 500;
+                                background-color: $background-color;
+                                div{
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    width: 100%;
+                                    gap: 0.3rem;
+                                    // background-color: #2097f3;
+                                    label{
+                                        &:nth-of-type(2){
+                                            flex-basis: 50%;
+                                        }
+                                    }
+                                }
+                            }
+                            &.attackList2{
+                                font-family: "Poppins";
+                                font-size: 0.95rem;
+                                box-sizing: border-box;
+                                padding: 1rem;
+                                background-color: #ffffff;
+                                border-radius: 5px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                flex-direction: column;
+                                // margin: 1rem;
+                                // margin-right: 0;
+                                input{
+                                    border: none;
+                                    border-bottom: 1px solid $border-color;
+                                    padding: 0.5rem 0.2rem;
+                                    padding-bottom: 0.3rem;
+                                    margin: 0.2rem 0;
+                                    font-size: 0.8rem;
+                                    width: 80%;
+                                    text-align: center;
+                                    &:focus{
+                                        outline: none;
+                                    }
+                                }
+                                button{
+                                    margin-top: 0.7rem;
+                                    font-weight: 500;
+                                    border: none;
+                                    border-radius: 5px;
+                                    color : white;
+                                    padding: 0.3rem 1rem;
+                                    &:not(:disabled){
+                                        background-color: $button-color;
+                                        cursor: pointer;
+                                    }
+                                    &:disabled{
+                                        color: #eee;
+                                        background-color: darkgray;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
-            
         }
         #right{
-            // background-color: darkcyan;
             flex : 1 1 60%;
+            height: 80vh;
             position: relative;
             display: flex;
             flex-direction: column;
             row-gap: 1rem;
-            padding: 0.5rem 2rem 1rem 2rem;
+            padding: 0.5rem 2rem 1rem 1rem;
             #rightBG{
                 $per : 1rem;
-                background-color: #FFFFFF;
                 clip-path: polygon($per 0%, calc( 100% - $per ) 0, 100% $per, 100% calc( 100% - $per ), calc( 100% - $per ) 100%, $per 100%, 0 calc( 100% - $per ), 0 $per);
-                mix-blend-mode:exclusion;
                 pointer-events: none;
                 position: absolute;
                 inset: 0;
                 height: 100%;
                 width: 100%;
+                transition: opacity $time1;
             }
             p{
                 margin: 0;
                 text-align: center;
             }
             textarea{
-                // display: none;
                 flex: 1;
-                // background-color: rgba($color: #FFFFFF, $alpha: 0.8);
-                background-color: rgba($color: #000000, $alpha: 0.8);
+                background-color: #000000;
                 backdrop-filter: blur(2px);
                 border : 1px solid black;
-                // border: none;
                 border-radius: 5px;
                 color: white;
                 padding: 0.5rem;
                 resize: none;
                 cursor:text;
-                // outline: 3px solid orange;
-                // box-shadow: 0 0 5px 1px orange;
+                transition: opacity $time1;
+                font-family: "Ubuntu Mono";
                 &:focus{
                     outline : none;
                 }
-                
             }
             #imgSrc{
                 position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%,-50%);
+                top: 0;
+                left: 0;
                 height: 100%;
                 width: 100%;
                 display: flex;
@@ -190,10 +279,43 @@ body{
                 align-items: center;
                 pointer-events: none;
                 opacity: 0;
+                overflow: hidden;
+                #cursor{
+                    $size : 1.3rem;
+                    min-width: $size;
+                    min-height: $size;
+                    background-color: rgba($color: #ffffff, $alpha: 0.5);
+                    position: fixed;
+                    user-select: none;
+                    pointer-events: none;
+                    opacity: 0;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transition: opacity 100ms;
+                    mix-blend-mode:difference;
+                    transform: translate(-50%,-50%);
+                    div{
+                        $minus : 0.5rem;
+                        min-width: calc($size - $minus);
+                        min-height: calc($size - $minus);
+                        background-color: rgba($color: #ffffff, $alpha: 0.6);
+                        border-radius: 50%;
+                    }
+                }
                 img{
-                    mix-blend-mode: multiply;
+                    position: relative;
+                    inset: 0;
                     width: auto;
                     height: 100%;
+                    user-select: none;
+                    cursor: none;
+                    &:hover{
+                        &+#cursor{
+                            opacity: 1;
+                        }
+                    }
                     &[src=""]{
                         border: 1px solid white;
                         width: 200px !important;
@@ -215,9 +337,6 @@ body{
     $slider-Height : 12px;
     $slider-Width : 12px;
 
-
-
-
     position: relative;
     display: inline-block;
     width: $switch-Width;
@@ -230,9 +349,9 @@ body{
         &:checked + .slider {
             background-color: #2196F3;
         }
-        &:focus + .slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
+        // &:focus + .slider {
+        //     box-shadow: 0 0 1px #2196F3;
+        // }
         &:checked + .slider:before {
             transform: translateX($slider-Width);
         }
@@ -267,7 +386,5 @@ body{
         }
     }
 }
-  
-  
 
 

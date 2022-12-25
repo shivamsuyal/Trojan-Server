@@ -11,10 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.2.1",
     "body-parser": "^1.20.0",
     "chalk": "^5.1.2",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "prompt-sync": "^4.2.0",
+    "session-file-store": "^1.5.0",
     "socket.io": "^4.5.1",
     "sqlite3": "^5.1.2"
   }

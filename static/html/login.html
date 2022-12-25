@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/login.css">
+
+    <!-- JS -->
+    <script src="../js/jquery.js" defer></script>
+    <script src="../js/login.js" defer></script>
+</head>
+<body>
+    <div id="container">
+        <form action="#" method="post">
+            <div id="heading">
+                <img src="../img/hacking.png" alt="">
+                <p>Mal World</p>
+            </div>
+            <div id="content">
+                <div class="field">
+                    <img src="../img/user.png" alt="">
+                    <input id="username" type="text" name="username" placeholder="Username" autocomplete="off" required/>
+                </div>
+                <div class="field">
+                    <img src="../img/key.png" alt="">
+                    <input id="password" type="password" name="password" placeholder="Password" autocomplete="off" required/>
+                </div>
+                <button type="submit" onclick="login()" id="bnt1">
+                    <p>Log In</p>
+                    <span class="loader"></span>
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

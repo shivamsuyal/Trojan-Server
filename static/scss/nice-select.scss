@@ -7,41 +7,25 @@ $input_height: 42px !default;
 $input_height_small: 36px !default;
 $dropdown_padding: 18px !default;
 
-
 $gray_dark: #444 !default;
 $gray: #999 !default;
 $gray_light: #e8e8e8 !default;
 $gray_lighter: #f6f6f6 !default;
 $primary_light: $gray !default;
-// $arrow_color: $gray !default;
-$arrow_color: black !default;
-$main-color : transparent;
-$list-color : rgba(50,54,69,1); 
-
+$arrow_color: $gray !default;
 
 // Style the dropdown
 .nice-select {
-  /* Hide scrollbar */
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  &{
-      -ms-overflow-style: none;  
-      scrollbar-width: none; 
-  } 
-  /* Hide scrollbar */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  background-color: $main-color;
+  background-color: #fff;
   border-radius: $input_border_radius;
-  // border: solid 1px $gray_light; 
+  border: solid 1px $gray_light; 
   box-sizing: border-box;
-  letter-spacing: 1px;
   clear: both;
   cursor: pointer;
   display: block;
   float: left;
-  color: white;
-  font-family: 'Open Sans';
+  font-family: inherit;
   font-size: $font_size;
   font-weight: normal;
   height: $input_height;
@@ -54,16 +38,9 @@ $list-color : rgba(50,54,69,1);
   transition: all 0.2s ease-in-out;
   user-select: none;
   white-space: nowrap;
-  text-overflow: ellipsis;
-  // overflow-x: hidden;
-  width: 100%;
-  .current{
-    width: 100%;
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
+  width: auto;
+  font-family: 'Work Sans', sans-serif;
+
   &:hover {
     border-color: darken($gray_light, 5%);
   }
@@ -139,9 +116,8 @@ $list-color : rgba(50,54,69,1);
   
   // List and options
   .list {
-    background-color: $list-color;
+    background-color: #fff;
     border-radius: $input_border_radius;
-    border: 1px solid grey;
     box-shadow: 0 0 0 1px rgba($gray_dark, .11);
     box-sizing: border-box;
     margin-top: 4px;
@@ -161,8 +137,7 @@ $list-color : rgba(50,54,69,1);
   }
   .option {
     cursor: pointer;
-    font-family: 'Roboto Mono';
-    font-weight: 300;
+    font-weight: 400;
     line-height: $input_height - 2;
     list-style: none;
     min-height: $input_height - 2;
@@ -170,14 +145,12 @@ $list-color : rgba(50,54,69,1);
     padding-left: $dropdown_padding;
     padding-right: $dropdown_padding + 11;
     text-align: left;
-    opacity: 0.8;
     transition: all 0.2s;
     &:hover, &.focus, &.selected.focus { 
-      background-color: $gray_dark;
+      background-color: $gray_lighter;
     }
     &.selected { 
-      font-weight: 400;
-      opacity: 1;
+      font-weight: 500;
     }
     &.disabled {
       background-color: transparent;

